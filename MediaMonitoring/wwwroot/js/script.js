@@ -1,0 +1,2 @@
+$('.inputDate').datepicker({
+});

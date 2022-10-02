@@ -1,0 +1,286 @@
+﻿@model MediaMonitoring.Models.ShareOfVoiceViewModel
+@{
+    ViewData["Title"] = "Competitive Report";
+    Layout = "~/Views/Shared/_LayoutElectronic.cshtml";
+}
+
+<p class="my-4 p-2"><a asp-controller="Electronic" asp-action="Competitive"><i class="fas fa-chevron-left px-2"></i>Go back</a></p>
+
+<!-- DataTales Example -->
+<div class="card mb-4">
+    <div class="card-header py-3 bg-white">
+        <h3 class="p-4 font-weight-bold text-black">Competitive Report</h3>
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-6 mt-3 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-none border border-secondary medium" placeholder="Search a brand or month" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="border border-secondary btn" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (Model.ShareOfExpenditures != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="SOE" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Medium</th>
+                                <th>Brand</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                                <th>Total</th>
+                                <th>SOE (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShareOfExpenditures)
+                            {
+                                <tr>
+                                    <td>@item.Medium</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Jan</td>
+                                    <td>@item.Feb</td>
+                                    <td>@item.Mar</td>
+                                    <td>@item.Apr</td>
+                                    <td>@item.May</td>
+                                    <td>@item.Jun</td>
+                                    <td>@item.Jul</td>
+                                    <td>@item.Aug</td>
+                                    <td>@item.Sep</td>
+                                    <td>@item.Oct</td>
+                                    <td>@item.Nov</td>
+                                    <td>@item.Dec</td>
+                                    <td>@item.Total</td>
+                                    <td>@item.SOE</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.ShareOfVoices != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="SOV" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Medium</th>
+                                <th>Brand</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                                <th>Total</th>
+                                <th>SOV (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShareOfVoices)
+                            {
+                                <tr>
+                                    <td>@item.Medium</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Jan</td>
+                                    <td>@item.Feb</td>
+                                    <td>@item.Mar</td>
+                                    <td>@item.Apr</td>
+                                    <td>@item.May</td>
+                                    <td>@item.Jun</td>
+                                    <td>@item.Jul</td>
+                                    <td>@item.Aug</td>
+                                    <td>@item.Sep</td>
+                                    <td>@item.Oct</td>
+                                    <td>@item.Nov</td>
+                                    <td>@item.Dec</td>
+                                    <td>@item.Total</td>
+                                    <td>@item.SOV</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.ShareOfCompetitiveWatchDogs != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="CompetitiveWatchDog" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Medium</th>
+                                <th>Brand</th>
+                                <th>Location</th>
+                                <th>Station</th>
+                                <th>TimeBand</th>
+                                <th>Time</th>
+                                <th>AdDate</th>
+                                <th>Program</th>
+                                <th>Spot</th>
+                                <th>Spend</th>
+                                <th>Identifier</th>
+                                <th>Duration</th>
+                                <th>Language</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShareOfCompetitiveWatchDogs)
+                            {
+                                <tr>
+                                    <td>@item.Medium</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Location</td>
+                                    <td>@item.Station</td>
+                                    <td>@item.TimeBand</td>
+                                    <td>@item.Time</td>
+                                    <td>@item.Addate</td>
+                                    <td>@item.PROGRAM</td>
+                                    <td>@item.Spots</td>
+                                    <td>@item.Spend</td>
+                                    <td>@item.Identifier</td>
+                                    <td>@item.Duration</td>
+                                    <td>@item.Language</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.ShareOfExpeditureAllMedias != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="SOEAllMedium" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Category</th>
+                                <th>Region</th>
+                                <th>Brand</th>
+                                <th>Television</th>
+                                <th>Radio</th>
+                                <th>Press</th>
+                                <th>Outdoor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShareOfExpeditureAllMedias)
+                            {
+                                <tr>
+                                    <td>@item.Category</td>
+                                    <td>@item.MonthDuration</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.TELE</td>
+                                    <td>@item.RADIO</td>
+                                    <td>@item.PRESS</td>
+                                    <td>@item.OUTDOOR</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.ShareOfVoiceAllMedias != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="SOVAllMedium" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Category</th>
+                                <th>Region</th>
+                                <th>Brand</th>
+                                <th>Television</th>
+                                <th>Radio</th>
+                                <th>Press</th>
+                                <th>Outdoor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShareOfVoiceAllMedias)
+                            {
+                                <tr>
+                                    <td>@item.Category</td>
+                                    <td>@item.MonthDuration</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.TELE</td>
+                                    <td>@item.RADIO</td>
+                                    <td>@item.PRESS</td>
+                                    <td>@item.OUTDOOR</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+
+        $('ul.navbar-nav.sidebar.accordion li a').each(function () {
+            if ($(this).hasClass('competitive')) {
+                $(this).parent().addClass('active mt-4 text-center');
+                $(this).children('i').addClass('acting');
+            } else {
+                $(this).parent().removeClass('active mt-4 text-center');
+                $(this).children('i').removeClass('acting');
+            }
+        });
+    </script>
+}

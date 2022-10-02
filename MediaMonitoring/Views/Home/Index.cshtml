@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="scroll">
+    <div class="row">
+            <marquee direction="left" onmouseover="this.stop()" onmouseout="this.start()"
+                     scrolldelay="50" class="scrollinner">
+                <h3>
+                    Vacancies available for candidates with Computer literacy, with minimum qualification of WAEC or Equivalent. Catchment areas Isolo, Ajao, ilasa, itire, Oshodi. Send CV to Info@mediamonitoring.com.ng
+                </h3>
+            </marquee>
+        </div>
+</div>
+<header>
+    <div id="carouselExampleIndicators" class="carousel slide text-left" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('./img/main/3.png')">
+                <div class="carousel-caption" data-aos="fade-up" data-aos-duration="2000">
+                    <h1 class="montserrat white">Ensure The Best Value For Your Advertising Budget</h1>
+                    <p class="white roboto">Media Monitoring shows you where your adverts are being played and the audience it attracts</p>
+
+                    <div class="d-flex mt-4">
+                        <div class="">
+                            <a asp-controller="Home" asp-action="Contact" class="btn btn-red mr-3"> Contact us </a>
+                        </div>
+                        <div class="">
+                            <a asp-controller="Home" asp-action="About" class="btn btn-trans2"> Learn more </a>
+                        </div>
+                    </div><!-- /.d-flex -->
+
+                </div>
+            </div>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item" style="background-image: url('./img/main/2.png')">
+                <div class="carousel-caption " data-aos="fade-up" data-aos-duration="2000">
+                    <h1 class="montserrat white">Quality Insights Into Your True Customers</h1>
+                    <p class="roboto white">We show the individuals listening and seeing your adverts in real time</p>
+
+                    <div class="d-flex mt-4">
+                        <div class="">
+                            <a asp-controller="Home" asp-action="Contact" class="btn btn-red mr-3"> Contact us </a>
+                        </div>
+                        <div class="">
+                            <a asp-controller="Home" asp-action="About" class="btn btn-trans2"> Learn more </a>
+                        </div>
+                    </div><!-- /.d-flex -->
+
+                </div>
+            </div>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item active" style="background-image: url('./img/main/1.png')">
+                <div class="carousel-caption" data-aos="fade-up" data-aos-duration="2000">
+                    <h1 class="montserrat white">Monitor Advert Activities Using Latest technology</h1>
+                    <p class="white roboto">Media Monitoring gives a detailed story of your advertising campaigns</p>
+
+                    <div class="d-flex mt-4">
+                        <div class="">
+                            <a asp-controller="Home" asp-action="Contact" class="btn btn-red mr-3"> Contact us <img src="./img/chevron-right.svg" class="ml-1" height="12px" alt=""> </a>
+                        </div>
+                        <div class="">
+                            <a asp-controller="Home" asp-action="About" class="btn btn-trans2"> Learn more </a>
+                        </div>
+                    </div><!-- /.d-flex -->
+
+                </div>
+            </div>
+
+        </div>
+        <a class="carousel-control-prev hideonmobile" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next hideonmobile" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
+
+
+<!-----Markus Section------>
+<div class="container-fluid row markus">
+    <div class="col-lg-6 col-md-6 col-sm-12" data-aos="fade-up" data-aos-duration="2000">
+        <img class="markus-img2" src="img/media-monitor/markus.png">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 p-markus" data-aos="fade-down" data-aos-duration="2000">
+        <div class="diamond"></div>
+        <h4 class="montserrat">We provide you with Media, Marketing and Research Services</h4><br>
+        <p class="roboto">Media Monitoring Services Nigeria Limited is the foremost and leading company in the provision of vital media, marketing and research information for stakeholders in Nigeria and beyond.</p>
+        <p class="roboto"> We have been in this business for over two decades, providing cutting edge services for brands, and the media advertising industry in general.. </p>
+        <p class="roboto pb-4"> Our experience, (knowledge and understanding) of the Nigeria media is second to none. We have the best tamper proof ad detection software that uses both visual and sound unlike the others that are only sound based. </p>
+    </div>
+
+</div>
+
+<!--------- Monitor Advert Section     ---------------------->
+<div class="container-fluid row p-default monitor my-4">
+    <div class="col-sm-12 col-lg-6 col-md-6" data-aos="fade-up" data-aos-duration="2000">
+        <h4 class="montserrat mt-4">Indoor or Outdoor Adverts? We have you covered</h4>
+        <p class="roboto mt-3">We are dedicated to delivering the most accurate information to help guide your advertisement decisions. Thus, we offer an array of indoor and outdoor data crafted to ensure concise report and improved decision making.</p>
+        <p class="roboto mt-4"><i class="far fa-check-square mr-2"></i>Outdoor Watchdog</p>
+        <p class="roboto mt-4"><i class="far fa-check-square mr-2"></i>Competitive Advertising Information</p>
+        <p class="roboto mt-4"><i class="far fa-check-square mr-2"></i>OutDoor Billboard/Site Evaluation</p>
+    </div>
+    <div class="col-sm-12 col-lg-6 col-md-6">
+        <img class="outdoor" src="~/img/main/outdoor.png" data-aos="fade-down" data-aos-duration="2000">
+        <img class="indoor" src="~/img/main/indoor.png" data-aos="fade-up" data-aos-duration="3000">
+
+    </div>
+</div>
+
+<!------------Brands section---------------->
+<div class="container-fluid bg-default2 padding-brand" data-aos="fade-up" data-aos-duration="2000">
+    <h4 class="text-center montserrat text-default">Trusted By Global brands</h4>
+    <p class="text-center roboto">As trail blazers in the industry, our credibility, integrity and professionalism have been tested and proven over the years. This has seen us build trust with multinational companies and governmental agencies who trust us with their advert monitoring needs.</p>
+    <div class="brand-img-main">
+        <div class="text-center">
+            <img class="brand-img" src="~/img/brand/MTN Logo.png" style="width: 72px; height: 72px;">
+            <img class="brand-img" src="~/img/brand/pepsi.png" style="width: 188px; height: 72px;">
+            <img class="brand-img" src="~/img/brand/glaxosmithkline-logo.png" style="width: 186px; height: 139px;">
+            <img class="brand-img" src="~/img/brand/frieslandcampina_logo.png" style="width: 172px; height: 72px;">
+            <img class="brand-img" src="~/img/brand/Olam_logo.png" style="width: 236px; height: 72px;">
+            <img class="brand-img" src="~/img/brand/nestleLogo.png" style="width: 186px; height: 72px;">
+            <img class="brand-img" src="~/img/brand/unilever.png" style="width: 150px; height: 72px;">
+            <img class="brand-img" src="~/img/brand/Cabury.png" style="width: 169px; height: 72px;">
+        </div>
+    </div>
+</div>
+
+<!--Data Display Section-->
+<div class="container-fluid row">
+    <div class="col-sm-12 col-lg-6 col-md-6">
+
+    </div>
+    <div class="col-sm-12 col-lg-6 col-md-6"></div>
+</div>
+
+    <!----Media quote section---->
+    <div class="container-fluid row m-qoute-section" data-aos="fade-down" data-aos-duration="2000">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <img class="prince" src="~/img/advertising/prince.png">
+            <img class="leon" src="~/img/advertising/leon.png">
+            <img class="etty" src="~/img/advertising/etty.png">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 p-qoute-right-section" data-aos="fade-up" data-aos-duration="2000">
+            <p class="mt-3 pb-4 roboto">"Media Monitoring Service has helped me better perform my role within the company. Giving us concise advert reports, we have been able to better channel our ad resources to more fruitful channels. I strongly recommend Media Monitoring Service." </p>
+            <h4 class="text-right montserrat"><b>Weyinmi Adebanjo</b></h4>
+            @*<h5 class="text-right montserrat"><b>MTN</b></h5>*@
+        </div>
+
+    </div>
+
+    <!-----Section----->
+    <div class="container-fluid row p-default3" data-aos="fade-up" data-aos-duration="2000">
+        <div class="col-lg-8 col-md-8 col-sm-12 bg-default2 padding-section">
+            <h4 class="montserrat">Enjoy Deeper understanding of your advert performance</h4>
+            <p class="roboto">Get in touch with us and our representative will be in touch with you to understand your needs and have your dashboard ready for maximum efficiency.</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 bg-default2 padding-section">
+            <a href="contact-us.html" class="btn btn-danger" roll=button>Contact Us <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>

@@ -1,0 +1,128 @@
+﻿@model MediaMonitoring.Models.ReconciliationViewModel
+@{
+    ViewData["Title"] = "Reconciliation Report";
+    Layout = "~/Views/Shared/_LayoutElectronic.cshtml";
+}
+
+<p class="my-4 p-2"><a asp-controller="Electronic" asp-action="Reconciliation"><i class="fas fa-chevron-left px-2"></i>Go back</a></p>
+
+<!-- DataTales Example -->
+<div class="card mb-4">
+    <div class="card-header py-3 bg-white">
+        <h3 class="p-4 font-weight-bold text-black">Reconciliation Report</h3>
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-6 mt-3 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-none border border-secondary medium" placeholder="Search a brand or Station" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="border border-secondary btn" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (Model.Reconciliations != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="Reconciliation" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Station</th>
+                                <th>Brand</th>
+                                <th>Date</th>
+                                <th>Program</th>
+                                <th>Scheduled Time</th>
+                                <th>Total Spots Booked</th>
+                                <th>Total Compliance To Time</th>
+                                <th>Captured Time</th>
+                                <th>Extra Spots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Reconciliations)
+                            {
+                                <tr>
+                                    <td>@item.Stations</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.AdDate.ToShortDateString()</td>
+                                    <td>@item.Program</td>
+                                    <td>@item.ScheduledTime</td>
+                                    <td>@item.ScheduledSpots</td>
+                                    <td>@item.CapturedSpots</td>
+                                    <td>@item.CapturedTime</td>
+                                    <td>@item.ExtraSpots</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.ReconciliationSummaries != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="ReconciliationRadio" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Station</th>
+                                <th>Brand</th>
+                                <th>Program</th>
+                                <th>Scheduled Time</th>
+                                <th>Number Scheduled</th>
+                                <th>Number Detected</th>
+                                <th>Extra Spots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ReconciliationSummaries)
+                            {
+                                <tr>
+                                    <td>@item.Stations</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Program</td>
+                                    <td>@item.ScheduledTime</td>
+                                    <td>@item.NumberBooked</td>
+                                    <td>@item.NumberCaptured</td>
+                                    <td>@item.ExtraSpots</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+
+        $('ul.navbar-nav.sidebar.accordion li a').each(function () {
+            if ($(this).hasClass('reconciliation')) {
+                $(this).parent().addClass('active mt-4 text-center');
+                $(this).children('i').addClass('acting');
+            } else {
+                $(this).parent().removeClass('active mt-4 text-center');
+                $(this).children('i').removeClass('acting');
+            }
+        });
+    </script>
+}

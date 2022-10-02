@@ -1,0 +1,120 @@
+body{
+    background-color: #fff;
+    color: #1A1A1A;
+   font-family: 'Montserrat', sans-serif !important;
+  }
+body h6 h5 h4 h3 h2 h1{
+    font-family: 'Montserrat', sans-serif !important;
+  }
+
+.container-fluid {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.container{   width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: auto;
+    margin-left: auto;
+}
+a{
+  text-decoration: none;
+  color: #FE0002;
+}
+a:hover{
+  text-decoration: none;
+  color: #000000;
+}
+p{
+  font-size: 16px;
+}
+.p-main{
+  padding-left: 136px;
+  padding-top: 89px;
+}
+.p-main-2{
+  padding-left: 60px;
+  padding-top: 110px;
+  padding-bottom: 30px;
+}
+.btn-default{
+  background-color: #FE0002;
+  color: #fff;
+}
+h4{
+  font-size: 44px;
+  font-weight: bold;
+}
+.text-green{
+  color: #2FAB26;
+}
+.bg-default{
+  background-color: #F4F7FA;
+}
+.bg-white{
+  background-color: #fff;
+}
+.text-black{
+  color: #000000;
+}
+.my-default{
+  margin-top: 40px;
+}
+.button{
+  margin-top: 80px;
+}
+
+
+@media (max-width: 1380px) {
+.button{
+  margin-top: 80px;
+}
+}
+@media (max-width: 992px) {
+   .p-main{
+    text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 30px;
+}
+.p-main-2{
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px
+  padding-top: 30px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,310 @@
+﻿@model MediaMonitoring.Models.ReportsViewModel
+@{
+    ViewData["Title"] = "Station Audit";
+    Layout = "~/Views/Shared/_LayoutElectronic.cshtml";
+}
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-sm-12">
+
+        <h3 class="pt-4 pl-4 text-black"><b>@ViewData["Title"]</b></h3>
+        <p class="px-4 text-black">Monitor Stations activity based on flighted adverts</p>
+    </div>
+    <div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </div>
+</div>
+<form asp-action="WatchDog" enctype="multipart/form-data" method="post">
+    <div class="row bg-white">
+        <div class="col-lg-3 col-md-3 col-sm-3 my-4 border-right">
+            <h4 class=" pl-3 text-black"><b>Report Type</b></h4>
+            <p id="audit" class="acting pl-4 pt-3 ptn">Station Audit <i class="fas fa-chevron-right pl-4"></i></p>
+            <h4 class="pl-3 text-black"><b>Media Type</b></h4>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="Television" checked>
+                <label class="form-check-label acting" for="gridRadios1">
+                    Television
+                </label>
+            </div>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="Radio">
+                <label class="form-check-label" for="gridRadios1">
+                    Radio
+                </label>
+            </div>
+            <div class="my-4 ml-4">
+                <button type="submit" onclick="return ValidateInputs();" class="btn btn-default">Generate Report  <i class="fas fa-chevron-right pl-4"></i></button>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h3 class="pt-4 pl-4 text-black"><b>Select Zone</b></h3>
+            <div class="row pl-4">
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <select class="form-control" asp-for="Zone">
+                        <option value="0">Select Region</option>
+                        <option value="AL">All Regions</option>
+                        <option value="L1">Lagos</option>
+                        <option value="SW">South West</option>
+                        <option value="SE">South East</option>
+                        <option value="SS">South South</option>
+                        <option value="NE">North East</option>
+                        <option value="NW">North West</option>
+                        <option value="NC">North Central</option>
+                    </select>
+                    <span asp-validation-for="Zone" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4 col-lg-8 col-sm-12"></div>
+            </div>
+            <h3 class="pt-4 pl-4 text-black"><b>Duration</b></h3>
+            <div class="row pl-4">
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <!-- <input class="px-2" type="text" name="" placeholder="From: 20 - 01 - 2020"> -->
+                    <input type="text" class="form-control inputDate" id="BeginDate" name="BeginDate" placeholder="From: 20 - 01 - 2020">
+                    <span asp-validation-for="BeginDate" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <input type="text" class="form-control inputDate" id="EndDate" name="EndDate" placeholder="To: 20 - 01 - 2020">
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4 col-lg-4 col-sm-12"></div>
+            </div>
+            <h3 class="pt-4 pl-4 text-black"><b>Filter by:</b></h3>
+
+            <div class="row pl-4">
+                <div class="form-group pt-1 col-lg-4 col-sm-12">
+                    <p class="pl-4 py-2">Brands</p>
+                    <div class="card">
+                        <div class="card-body pl-4">
+                            <div class="p-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border border-light small" placeholder="Search Brand..." aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div>
+                            <div class="pl-4 mt-2">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    Select All
+                                </label>
+                            </div>
+                            @if (ViewBag.Brands != null)
+                            {
+                                foreach (var item in ViewBag.Brands)
+                                {
+                                    <div class="pl-4 mt-2">
+                                        <input class="form-check-input" type="checkbox" value="@item.FK_ProductId @item.BrandId" name="brand">
+                                        <label class="form-check-label" for="brand">
+                                            @item.Description
+                                        </label>
+                                    </div>
+                                }
+                            }
+
+                            @*<span asp-validation-for="Brands" class="text-danger"></span>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group pt-1 col-lg-4 col-sm-12">
+                    <p class="pl-4 py-2">Identifier</p>
+                    <div class="card">
+                        <div class="card-body pl-4">
+                            <div class="p-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border border-light small" placeholder="Search Identifier" aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div>
+                            <div class="pl-4 mt-2">
+                                <input class="form-check-input" type="checkbox" value="0" id="defaultId1">
+                                <label class="form-check-label" for="defaultId1">
+                                    Select All
+                                </label>
+                            </div>
+                            <div id="divIdentifiers"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group pt-1 col-lg-4 col-sm-12">
+                    <p class="pl-4 py-2">Stations</p>
+                    <div class="card">
+                        <div class="card-body pl-4">
+                            <div class="p-0">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border border-light small" placeholder="Search Station..." aria-label="Search" aria-describedby="basic-addon2">
+                                </div>
+                            </div>
+                            <div class="pl-4 mt-2">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultStation1">
+                                <label class="form-check-label" for="defaultStation1">
+                                    Select All
+                                </label>
+                            </div>
+                            <div id="divStations">
+                                @if (ViewBag.Stations != null)
+                                {
+                                    foreach (var item in ViewBag.Stations)
+                                    {
+                                        <div class="pl-4 mt-2">
+                                            <input class="form-check-input" type="checkbox" value="@item.StationId" name="station">
+                                            <label class="form-check-label" for="station">
+                                                @item.Description
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        @Html.HiddenFor(model => model.Operation)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        $('input[name="brand"]').click(function () {
+            //var result = $('input[')
+            if ($(this).prop('checked') == true) {
+                var selectedBrands = $('input[name="brand"]:checked');
+            var selectedSplit = selectedBrands.val().split(' ');
+            var selectedProduct = selectedSplit[0];
+            var selectedBrand = selectedSplit[1];
+            var regionsSelect = $('#divIdentifiers');
+
+            swal({
+                title: "Media Monitoring",
+                text: "Please Wait While Fetching Identifiers!!!",
+                icon: "info",
+                buttons: false
+            });
+
+            if (selectedBrand.length > 0) {
+                regionsSelect.empty();
+                    $.getJSON('@Url.Action("GetIdentifiers")', { brandId: selectedBrand, productId: selectedProduct }, function (depts) {
+                        if (depts != null && !jQuery.isEmptyObject(depts)) {
+                            $.each(depts, function (index, region) {
+                                regionsSelect.append(
+                                    '<div class="pl-4 mt-2"><input class="form-check-input" type="checkbox" name="identifier" value="' + region.brandADId + '" id="identifier"><label class="form-check-label" for="identifier">' + region.description + '</label></div > '
+                                )
+                            });
+                            swal.close();
+                        } else {
+                            swal('Unable to fetch Identifiers!!!');
+                        };
+                    });
+            }
+            }
+        });
+
+        $('input[type=radio][name=MediaType]').change(function () {
+            var selected = "";
+            var regionsSelect = $('#divStations');
+
+            if (this.value == 'Television') {
+                selected = 'Television';
+
+                swal({
+                    title: "Media Monitoring",
+                    text: "Please Wait While Fetching Tv Stations!!!",
+                    icon: "info",
+                    buttons: false
+                });
+            }
+            else if (this.value == 'Radio') {
+                selected = 'Radio';
+
+                swal({
+                    title: "Media Monitoring",
+                    text: "Please Wait While Fetching Radio Stations!!!",
+                    icon: "info",
+                    buttons: false
+                });
+            }
+
+            if (selected.length > 0) {
+                regionsSelect.empty();
+                    $.getJSON('@Url.Action("GetStations")', { medium: selected }, function (depts) {
+                        if (depts != null && !jQuery.isEmptyObject(depts)) {
+                            $.each(depts, function (index, region) {
+                                regionsSelect.append(
+                                    '<div class="pl-4 mt-2"><input class="form-check-input" type="checkbox" name="station" value="' + region.stationId + '" id="station"><label class="form-check-label" for="station">' + region.description + '</label></div > '
+                                )
+                            });
+                            swal.close();
+                        } else {
+                            swal('Unable to fetch Stations!!!');
+                        };
+                    });
+            }
+        });
+
+        function ValidateInputs() {
+            var checkedBrands = $('input[name="brand"]:checked');
+            var checkedStations = $('input[name="station"]:checked');
+
+            if (checkedBrands.length == 0) {
+                swal("Please Select A Brand!!!");
+                return false;
+            } else if (checkedStations.length == 0) {
+                swal("Please Select A Station Or Multiple Stations!!!");
+                return false;
+            } else {
+                swal({
+                    title: "Media Monitoring",
+                    text: "Please Wait While Fetching Report!!!",
+                    icon: "info",
+                    buttons: false
+                });
+
+                return true;
+            }
+        }
+
+        $('#defaultCheck1').click(function () {
+            $('input[name="brand"]:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $('#defaultStation1').click(function () {
+            $('input[name="station"]:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $('#defaultId1').click(function () {
+            $('input[name="identifier"]:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $('ul.navbar-nav.sidebar.accordion li a').each(function () {
+            if ($(this).hasClass('audit')) {
+                $(this).parent().addClass('active mt-4 text-center');
+                $(this).children('i').addClass('acting');
+            } else {
+                $(this).parent().removeClass('active mt-4 text-center');
+                $(this).children('i').removeClass('acting');
+            }
+        });
+    </script>
+    <script>
+    const btns = document.querySelectorAll(".ptn");
+    //var operation = document.getElementById('Operation');
+
+    btns.forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            btns.forEach(button => {
+                if (button.classList.contains('acting')) {
+                    button.classList.remove('acting')
+                }
+                if (button.children[0] !== undefined) {
+                    button.children[0].remove()
+                }
+            })
+            e.target.classList.add("acting");
+            //operation.val = this.innerText;
+            const fa = document.createElement('i');
+            fa.className += 'fas';
+            fa.className += ' fa-chevron-right';
+            fa.className += ' pl-4';
+            e.target.append(fa);
+        })
+    })
+    </script>
+}

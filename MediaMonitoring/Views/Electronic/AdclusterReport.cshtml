@@ -1,0 +1,610 @@
+﻿@model MediaMonitoring.Models.AdClusterViewModel
+@{
+    ViewData["Title"] = "Adcluster Report";
+    Layout = "~/Views/Shared/_LayoutElectronic.cshtml";
+}
+
+<p class="my-4 p-2"><a asp-controller="Electronic" asp-action="Adcluster"><i class="fas fa-chevron-left px-2"></i>Go back</a></p>
+
+<!-- DataTales Example -->
+<div class="card mb-4">
+    <div class="card-header py-3 bg-white">
+        <h3 class="p-4 font-weight-bold text-black">AdCluster Report</h3>
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-6 mt-3 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-none border border-secondary medium" placeholder="Search brand or station" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="border border-secondary btn" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (Model.AdClusters != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdCluster" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Station</th>
+                                <th>Brand</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusters)
+                            {
+                                <tr>
+                                    <td>@item.Station</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Sun</td>
+                                    <td>@item.Mon</td>
+                                    <td>@item.Tue</td>
+                                    <td>@item.Wed</td>
+                                    <td>@item.Thu</td>
+                                    <td>@item.Fri</td>
+                                    <td>@item.Sat</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterPresses != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterPrint" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Publication</th>
+                                <th>Brand</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterPresses)
+                            {
+                                <tr>
+                                    <td>@item.Publication</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Sun</td>
+                                    <td>@item.Mon</td>
+                                    <td>@item.Tue</td>
+                                    <td>@item.Wed</td>
+                                    <td>@item.Thu</td>
+                                    <td>@item.Fri</td>
+                                    <td>@item.Sat</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterOutdoors != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterOOH" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>State</th>
+                                <th>Brand</th>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterOutdoors)
+                            {
+                                <tr>
+                                    <td>@item.State</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Sun</td>
+                                    <td>@item.Mon</td>
+                                    <td>@item.Tue</td>
+                                    <td>@item.Wed</td>
+                                    <td>@item.Thu</td>
+                                    <td>@item.Fri</td>
+                                    <td>@item.Sat</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByMonths != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByMonths" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Station</th>
+                                <th>Brand</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByMonths)
+                            {
+                                <tr>
+                                    <td>@item.Station</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Jan</td>
+                                    <td>@item.Feb</td>
+                                    <td>@item.Mar</td>
+                                    <td>@item.Apr</td>
+                                    <td>@item.May</td>
+                                    <td>@item.Jun</td>
+                                    <td>@item.Jul</td>
+                                    <td>@item.Aug</td>
+                                    <td>@item.Sep</td>
+                                    <td>@item.Oct</td>
+                                    <td>@item.Nov</td>
+                                    <td>@item.Dec</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByMonthPresses != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByMonthsPrint" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Publication</th>
+                                <th>Brand</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByMonthPresses)
+                            {
+                                <tr>
+                                    <td>@item.Publication</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Jan</td>
+                                    <td>@item.Feb</td>
+                                    <td>@item.Mar</td>
+                                    <td>@item.Apr</td>
+                                    <td>@item.May</td>
+                                    <td>@item.Jun</td>
+                                    <td>@item.Jul</td>
+                                    <td>@item.Aug</td>
+                                    <td>@item.Sep</td>
+                                    <td>@item.Oct</td>
+                                    <td>@item.Nov</td>
+                                    <td>@item.Dec</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByMonthOutdoors != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByMonthOOH" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>State</th>
+                                <th>Brand</th>
+                                <th>Jan</th>
+                                <th>Feb</th>
+                                <th>Mar</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByMonthOutdoors)
+                            {
+                                <tr>
+                                    <td>@item.State</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Jan</td>
+                                    <td>@item.Feb</td>
+                                    <td>@item.Mar</td>
+                                    <td>@item.Apr</td>
+                                    <td>@item.May</td>
+                                    <td>@item.Jun</td>
+                                    <td>@item.Jul</td>
+                                    <td>@item.Aug</td>
+                                    <td>@item.Sep</td>
+                                    <td>@item.Oct</td>
+                                    <td>@item.Nov</td>
+                                    <td>@item.Dec</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByTimeSegments != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByTimeSegment" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Station</th>
+                                <th>Brand</th>
+                                <th>0-6</th>
+                                <th>6-9</th>
+                                <th>9-12</th>
+                                <th>12-15</th>
+                                <th>15-19</th>
+                                <th>19-22</th>
+                                <th>22-24</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByTimeSegments)
+                            {
+                                <tr>
+                                    <td>@item.Station</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.ZeroToSix</td>
+                                    <td>@item.SixToNine</td>
+                                    <td>@item.NineToTwelve</td>
+                                    <td>@item.TwelveToThree</td>
+                                    <td>@item.ThreeToSeven</td>
+                                    <td>@item.SevenToTen</td>
+                                    <td>@item.TenToTwelve</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByTimeSegmentPresses != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByTimeSegmentPrint" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Location</th>
+                                <th>Publication</th>
+                                <th>Brand</th>
+                                <th>Print Size</th>
+                                <th>Date</th>
+                                <th>Spots</th>
+                                <th>Spend</th>
+                                <th>Identifier</th>
+                                <th>Advertiser</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByTimeSegmentPresses)
+                            {
+                                <tr>
+                                    <td>@item.Location</td>
+                                    <td>@item.Publication</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.PrintSize</td>
+                                    <td>@item.AdDate</td>
+                                    <td>@item.Spots</td>
+                                    <td>@item.Spend</td>
+                                    <td>@item.Identifier</td>
+                                    <td>@item.Advertiser</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByTimeSegmentOutdoors != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByTimeSegmentOOH" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Location</th>
+                                <th>Board Size</th>
+                                <th>Brand</th>
+                                <th>Date</th>
+                                <th>Spots</th>
+                                <th>Spend</th>
+                                <th>Identifier</th>
+                                <th>Advertiser</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByTimeSegmentOutdoors)
+                            {
+                                <tr>
+                                    <td>@item.Location</td>
+                                    <td>@item.BoardSize</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.AdDate</td>
+                                    <td>@item.Spots</td>
+                                    <td>@item.Spend</td>
+                                    <td>@item.Identifier</td>
+                                    <td>@item.Advertiser</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByWeeks != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByWeek" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Category</th>
+                                <th>Station</th>
+                                <th>Brand</th>
+                                <th>Week</th>
+                                <th>Spots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByWeeks)
+                            {
+                                <tr>
+                                    <td>@item.Category</td>
+                                    <td>@item.Station</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Week</td>
+                                    <td>@item.Spots</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByWeekPresses != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByWeekPrint" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Category</th>
+                                <th>Publication</th>
+                                <th>Brand</th>
+                                <th>Week</th>
+                                <th>Spots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByWeekPresses)
+                            {
+                                <tr>
+                                    <td>@item.Category</td>
+                                    <td>@item.Publication</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Week</td>
+                                    <td>@item.Spots</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterByWeekOutdoors != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterByWeekOOH" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>State</th>
+                                <th>Town</th>
+                                <th>Week</th>
+                                <th>Spots</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterByWeekOutdoors)
+                            {
+                                <tr>
+                                    <td>@item.Category</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.State</td>
+                                    <td>@item.Town</td>
+                                    <td>@item.Week</td>
+                                    <td>@item.Spots</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.AdClusterAllMedias != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="AdClusterAllMedium" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Product</th>
+                                <th>Medium</th>
+                                <th>Brand</th>
+                                <th>Station</th>
+                                <th>TimeBand</th>
+                                <th>Time</th>
+                                <th>AdDate</th>
+                                <th>Day</th>
+                                <th>Program</th>
+                                <th>Spots</th>
+                                <th>Duration</th>
+                                <th>Month</th>
+                                <th>Advertiser</th>
+                                <th>Quarter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.AdClusterAllMedias)
+                            {
+                                <tr>
+                                    <td>@item.Product</td>
+                                    <td>@item.Medium</td>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Station</td>
+                                    <td>@item.TimeBand</td>
+                                    <td>@item.Time</td>
+                                    <td>@item.Addate</td>
+                                    <td>@item.Day</td>
+                                    <td>@item.PROGRAM</td>
+                                    <td>@item.Spots</td>
+                                    <td>@item.Duration</td>
+                                    <td>@item.Month</td>
+                                    <td>@item.Advertiser</td>
+                                    <td>@item.Quarter</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+
+        $('ul.navbar-nav.sidebar.accordion li a').each(function () {
+            if ($(this).hasClass('adcluster')) {
+                $(this).parent().addClass('active mt-4 text-center');
+                $(this).children('i').addClass('acting');
+            } else {
+                $(this).parent().removeClass('active mt-4 text-center');
+                $(this).children('i').removeClass('acting');
+            }
+        });
+    </script>
+}

@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container row contact-padding">
+    <div class="col-lg-1 col-md-1 col-sm-12" data-aos="fade-up" data-aos-duration="2000">
+        <hr class="new">
+    </div>
+    <div class="col-lg-5 col-md-5 col-sm-12" data-aos="fade-up" data-aos-duration="2000">
+        <h3 class="text-default">
+            <b>
+                Contact Us
+            </b>
+        </h3>
+        <p>Would like to use any of our service? Or do you have a complaint about our service? We're happy to answer any of your questions.<br><br> Please drop us a message and an experienced member of our team would respond shortly. </p>
+        @*<span class="text-default py-3"><i class="fas fa-phone-volume"></i> +234 8033313338</span><br>*@
+        <span class="text-default pt-3"><i class="fas fa-map-marker-alt"></i> 12 Seriki Abass Street,<br> Ajao-Estate Isolo,<br> Lagos 23401 NG</span>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 contact-bg text-left Contact-form-mobile-view">
+        <form asp-action="Contact" method="post" data-aos="fade-down" data-aos-duration="2000">
+            <div class="form-row py-4">
+                <div class="form-group col-md-12 col-sm-12">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control contact-bg" id="name" name="name" placeholder="Enter Your Full Name">
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control contact-bg" id="email" name="email" placeholder="Enter Your Email Address">
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" class="form-control contact-bg" id="phone" name="phone" placeholder="Enter Your Mobile Number">
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    <label for="company">Company name</label>
+                    <input type="text" class="form-control contact-bg" id="company" name="company" placeholder="Enter Your Company Name">
+                </div>
+                <div class="form-group col-md-6 col-sm-12">
+                    @*<label for="category">Select Categoy</label>
+                    <select id="category" class="form-control contact-bg">
+                        <option selected>Select Category</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>*@
+                </div>
+                <div class="form-group col-md-12 col-sm-12">
+                    <label for="message">Message</label>
+                    <textarea class="form-control contact-bg" id="message" name="message" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger mt-4">Send Message <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <h1 class="text-center text-black my-4">Our Location</h1>
+    <iframe width="100%" height="700px" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3963.818124908683!2d3.329995!3d6.5446361!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8e731623822b%3A0xca578965d758cdce!2sM%2C%2012%20Seriki%20Abass%20Cres%2C%20Isolo%2C%20Lagos%2C%20Nigeria!5e0!3m2!1sen!2s!4v1601761503333!5m2!1sen!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+</div>
+

@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Media Monitoring</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" type="text/css" href="~/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="~/css/jquery.convform.css" rel="stylesheet" />
+
+    <!--SEO Links-->
+    <meta name="application-name" content="Media Monitoring Services Nigeria Limited Website">
+    <meta name="apple-mobile-web-app-title" content="Media Monitoring Services Nigeria">
+    <meta name="description" content="Media Monitoring Services Nigeria Limited is the foremost and leading company in the provision of vital media, marketing and research information for stakeholders in Nigeria and beyond.">
+    <meta name="author" content="Media Monitoring Services Nigeria Limited">
+    <meta name="generator" content="Media Monitoring Services Nigeria Limited">
+    <meta name="keywords" content="MedMedia Monitoring Services Nigeria Limited, Understand adverts, Know how your adverts affect people, media monitoring, monitor adverts in nigeria">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+    <!-- Chat Bot -->
+    <div class="chat_icon">
+        <i class="fa fa-comments" aria-hidden="true"></i>
+    </div>
+
+    <div class="chat_box">
+        <div class="conv-form-wrapper">
+            <form action="" method="get" class="hidden">
+                <select name="category" data-conv-question="Hello! You're welcome to Media Monitoring Services Nigeria Ltd. How can we help you?">
+                    <option value="ansInquiry">Inquire About Our Services</option>
+                    <option value="ansSpeak">Speak To Customer Care</option>
+                </select>
+                <div data-conv-fork="category">
+                    <div data-conv-case="ansInquiry">
+                        <select name="inquiry" data-conv-question="Please select below the option you want to inquire about">
+                            <option value="ansElectronic">Electronic Monitoring</option>
+                            <option value="ansPrint">Print</option>
+                            <option value="ansOutdoor">Or Outdoor</option>
+                        </select>
+                    </div>
+                    <div data-conv-case="ansSpeak">
+                        <input type="text" data-conv-question="Please, tell us your company name">
+                    </div>
+                </div>
+                <input type="text" name="name" data-conv-question="Please input your name">
+                <input data-conv-question="Type in your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" id="email" type="email" name="email" required placeholder="What's your e-mail?">
+            </form>
+        </div>
+    </div>
+    <!-- Chat Bot Ends -->
+
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-white shadow">
+            <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                <img class="hvr-icon" src="~/img/logo/main-logo/logo.png" style="width:136px; height: 72.2px;">
+            </a>
+            <button class="navbar-toggler bg-default" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                <span><i class="fas fa-sliders-h"></i></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarToggler">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="About">Who We Are</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Our Solutions
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Electronic">Electronic & Print Media</a>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="Outdoor">Outdoor Media</a>
+                            <a class="dropdown-item" href="https://www.mmsmusteranalytics.com">MMS Muster Analytics</a>
+                        </div>
+                    </li>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("Television") || User.IsInRole("Radio") || User.IsInRole("Administrators")))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Electronic" asp-action="Dashboard">Electronic Dashboard</a>
+                        </li>
+                    }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Administrators"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Index">Admin</a>
+                        </li>
+                    }
+                    <li class="nav-item contact"> <a asp-controller="Home" asp-action="Contact" class="btn btn-danger" roll=button>Contact Us <i class="fas fa-arrow-right"></i></a> </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- End of navbar  --->
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!---Footer-->
+    <div class="container-fluid row text-default footer" data-aos="fade-up" data-aos-duration="2000">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <img class="foot-img" src="~/img/logo/main-logo/logo.png" style="width: 200px; height: 138px;">
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 mt-default pl-default">
+            <h4 class="montserrat">Company</h4>
+            <div class="footer-link">
+                <a asp-controller="Home" asp-action="About">About Us</a><br>
+                <a asp-controller="Electronic" asp-action="Dashboard">Electronic Monitoring</a><br>
+                <a asp-controller="Outdoor" asp-action="Dashboard">Outdoor Monitoring</a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 mt-default pl-default">
+            <h4 class="montserrat">User Agreements</h4>
+            <div class="footer-link">
+                <a asp-controller="Home" asp-action="Terms">Terms of Use</a><br>
+                <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a><br>
+                <a asp-controller="Home" asp-action="Cookies">Cookies Policy</a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 mt-default pl-default">
+            <h4 class="montserrat">Contact Details</h4>
+            <div class="footer-link">
+                @*<span class="text-default"><i class="fas fa-phone-volume footer-icon"></i> +234 8033313338</span><br>*@
+                <span class="text-default"><i class="fas fa-envelope footer-icon"></i> info@mediamonitoring.com.ng</span><br>
+                <span class="text-default"><i class="fas fa-map-marker-alt footer-icon"></i> 12 Seriki Abass Street,<br> Ajao-Estate Isolo,<br> Lagos 23401 NG</span>
+            </div>
+        </div>
+    </div>
+    <div class="text-default text-center my-3">
+        <p>&copy; @DateTime.Now.Year, Media Monitoring Services Nig. LTD. All Rights Reserved.</p>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.convform.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <script>
+        $(function () {
+            AOS.init();
+        });
+    </script>
+</body>
+</html>

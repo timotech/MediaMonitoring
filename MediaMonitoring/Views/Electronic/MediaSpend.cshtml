@@ -1,0 +1,173 @@
+﻿@model MediaMonitoring.Models.ReportsViewModel
+@{
+    ViewData["Title"] = "MediaSpend";
+    Layout = "~/Views/Shared/_LayoutElectronic.cshtml";
+}
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-sm-12">
+
+            <h3 class="pt-4 pl-4 text-black"><b>Media Spend</b></h3>
+            <p class="px-4 text-black">calculate amount spent by advertisers within a medium.</p>
+        </div>
+        <div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+    </div>
+<form asp-action="MediaSpend" enctype="multipart/form-data" method="post">
+    <div class="row bg-white">
+        <div class="col-lg-3 col-md-3 col-sm-3 my-4 border-right">
+            <h4 class=" pl-3 text-black"><b>Report Type</b></h4>
+            <p id="topAds" class="acting pl-4 pt-3 ptn">Top Advertisers<i class="fas fa-chevron-right pl-4"></i></p>
+            <p id="topBrands" class="pl-4 pt-2 ptn">Top Brands</p>
+            <p id="topProducts" class="pl-4 pt-2 ptn">Top Product Categories</p>
+            <h4 class=" pl-3 text-black"><b>Media Type</b></h4>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="All Media" checked>
+                <label class="form-check-label acting" for="gridRadios1">
+                    All Media
+                </label>
+            </div>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="Television">
+                <label class="form-check-label" for="gridRadios1">
+                    Television
+                </label>
+            </div>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="Radio">
+                <label class="form-check-label" for="gridRadios1">
+                    Radio
+                </label>
+            </div>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="Press">
+                <label class="form-check-label" for="gridRadios1">
+                    Press
+                </label>
+            </div>
+            <div class="form-check pt-2">
+                <input class="form-check-input" type="radio" asp-for="MediaType" value="Outdoor">
+                <label class="form-check-label" for="gridRadios1">
+                    Outdoor
+                </label>
+            </div>
+
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <h3 class="pt-4 pl-4 text-black"><b>Select Zone</b></h3>
+            <div class="row pl-4">
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <select class="form-control" asp-for="Zone">
+                        <option value="0">Select Region</option>
+                        <option value="AL">All Regions</option>
+                        <option value="L1">Lagos</option>
+                        <option value="SW">South West</option>
+                        <option value="SE">South East</option>
+                        <option value="SS">South South</option>
+                        <option value="NE">North East</option>
+                        <option value="NW">North West</option>
+                        <option value="NC">North Central</option>
+                    </select>
+                    <span asp-validation-for="Zone" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4 col-lg-8 col-sm-12"></div>
+            </div>
+            <h3 class="pt-4 pl-4 text-black"><b>Filter By</b></h3>
+            <div class="row pl-4">
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <select class="form-control" asp-for="Filter">
+                        <option>Select Preferred Filter</option>
+                        <option>All Advertisers</option>
+                        <option>Product Categories</option>
+                        <option>All Brands</option>
+                    </select>
+                </div>
+                <div class="form-group pt-4 col-lg-8 col-sm-12"></div>
+            </div>
+            <h3 class="pt-4 pl-4 text-black"><b>Duration</b></h3>
+            <div class="row pl-4">
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <input type="text" class="form-control inputDate" id="BeginDate" name="BeginDate" placeholder="From: 20 - 01 - 2020">
+                    <span asp-validation-for="BeginDate" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4 col-lg-4 col-sm-12">
+                    <input type="text" class="form-control inputDate" id="EndDate" name="EndDate" placeholder="To: 20 - 01 - 2020">
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group pt-4 col-lg-4 col-sm-12"></div>
+            </div>
+            <div class="my-4 ml-4">
+                <button type="submit" onclick="return ValidateInputs();" class="btn btn-default">Generate Report  <i class="fas fa-chevron-right pl-4"></i></button>
+            </div>
+            @Html.HiddenFor(model => model.Operation)
+        </div>
+    </div>
+</form>
+
+    @section Scripts {
+        <script>
+
+            $(document).ready(function () {
+                $('#Operation').val("TopAdvertisers");
+            })
+
+            $('ul.navbar-nav.sidebar.accordion li a').each(function () {
+                if ($(this).hasClass('mediaspend')) {
+                    $(this).parent().addClass('active mt-4 text-center');
+                    $(this).children('i').addClass('acting');
+                } else {
+                    $(this).parent().removeClass('active mt-4 text-center');
+                    $(this).children('i').removeClass('acting');
+                }
+            });
+
+            $('#topAds').click(function () {
+                $('#Operation').val("TopAdvertisers");
+            });
+
+            $('#topBrands').click(function () {
+                $('#Operation').val("TopBrands");
+            });
+
+            $('#topProducts').click(function () {
+                $('#Operation').val("TopProducts");
+            });
+        </script>
+        <script>
+            const btns = document.querySelectorAll(".ptn");
+            //var operation = document.getElementById('Operation');
+
+            btns.forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    btns.forEach(button => {
+                        if (button.classList.contains('acting')) {
+                            button.classList.remove('acting')
+                        }
+                        if (button.children[0] !== undefined) {
+                            button.children[0].remove()
+                        }
+                    })
+                    e.target.classList.add("acting");
+                    //operation.val = this.innerText;
+                    const fa = document.createElement('i');
+                    fa.className += 'fas';
+                    fa.className += ' fa-chevron-right';
+                    fa.className += ' pl-4';
+                    e.target.append(fa);
+                })
+            })
+        </script>
+        <script>
+            function ValidateInputs() {
+                swal({
+                    title: "Media Monitoring",
+                    text: "Please Wait While Fetching Report!!!",
+                    icon: "info",
+                    buttons: false
+                });
+
+                return true;
+            }
+        </script>
+    }

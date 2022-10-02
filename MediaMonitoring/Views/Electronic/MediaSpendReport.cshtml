@@ -1,0 +1,138 @@
+﻿@model MediaMonitoring.Models.MediaSpendViewModel
+@{
+    ViewData["Title"] = "Media Spend Report";
+    Layout = "~/Views/Shared/_LayoutElectronic.cshtml";
+}
+
+<p class="my-4 p-2"><a asp-controller="Electronic" asp-action="MediaSpend"><i class="fas fa-chevron-left px-2"></i>Go back</a></p>
+
+<!-- DataTales Example -->
+<div class="card mb-4">
+    <div class="card-header py-3 bg-white">
+        <h3 class="p-4 font-weight-bold text-black">Media Spend Report</h3>
+        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-6 mt-3 mw-100 navbar-search">
+            <div class="input-group">
+                <input type="text" class="form-control bg-none border border-secondary medium" placeholder="Search a brand Name" aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="border border-secondary btn" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (Model.MediaSpends != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="MediaSpend" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Advertiser</th>
+                                <th>Spots</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.MediaSpends)
+                            {
+                                <tr>
+                                    <td>@item.Advertiser</td>
+                                    <td>@item.Spots</td>
+                                    <td>₦@item.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.MediaSpendByBrands != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="MediaSpendByBrand" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Brand</th>
+                                <th>Spots</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.MediaSpendByBrands)
+                            {
+                                <tr>
+                                    <td>@item.Brand</td>
+                                    <td>@item.Spots</td>
+                                    <td>₦@item.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Model.MediaSpendByProducts != null)
+            {
+                <div class="my-4 ml-4">
+                    <form asp-action="Export" asp-controller="Electronic" asp-route-operation="MediaSpendByProducts" method="post">
+                        <input type="hidden" name="GridHtml" />
+                        <button type="submit" class="btn btn-secondary btnSubmit">Download a copy <i class="fas fa-download pl-4"></i></button>
+                    </form>
+                </div>
+                <div id="Grid">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="bg-grey">
+                            <tr class="text-black">
+                                <th>Product Category</th>
+                                <th>Spots</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.MediaSpendByProducts)
+                            {
+                                <tr>
+                                    <td>@item.Product</td>
+                                    <td>@item.Spots</td>
+                                    <td>₦@item.Value</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
+            });
+        });
+
+        $('ul.navbar-nav.sidebar.accordion li a').each(function () {
+            if ($(this).hasClass('mediaspend')) {
+                $(this).parent().addClass('active mt-4 text-center');
+                $(this).children('i').addClass('acting');
+            } else {
+                $(this).parent().removeClass('active mt-4 text-center');
+                $(this).children('i').removeClass('acting');
+            }
+        });
+    </script>
+}
