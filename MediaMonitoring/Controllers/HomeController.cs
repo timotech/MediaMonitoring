@@ -32,6 +32,7 @@ namespace MediaMonitoring.Controllers
             var topAds = db.TopCampaigns.FromSqlRaw("onl_GetCurrentCampaigns_sel").ToList().OrderByDescending(x => x.AdDate);
 
             var lstTopAds = new List<TopCampaignsViewModel>();
+            string scrollString = "";
             foreach(var item in topAds)
             {
                 var lstItem = new TopCampaignsViewModel();
@@ -42,9 +43,12 @@ namespace MediaMonitoring.Controllers
                 lstItem.Medium = item.Medium;
                 lstItem.Station = item.Station;
                 lstTopAds.Add(lstItem);
+                scrollString += $"{item.Campaign} on {item.Station} @ {item.AdDate}, ";
             }
 
             ViewBag.CurrentCampaigns = lstTopAds;
+
+            ViewBag.ScrollNews = "Currently Running: " + scrollString;
 
             //get top advertizers
             int year = DateTime.Now.Year;

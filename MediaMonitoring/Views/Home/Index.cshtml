@@ -7,7 +7,7 @@
         <marquee direction="left" onmouseover="this.stop()" onmouseout="this.start()"
                  scrolldelay="50" class="scrollinner">
             <h3>
-                Vacancies available for candidates with Computer literacy, with minimum qualification of WAEC or Equivalent. Catchment areas Isolo, Ajao, ilasa, itire, Oshodi. Send CV to Info@mediamonitoring.com.ng
+                @ViewBag.ScrollNews
             </h3>
         </marquee>
     </div>
@@ -162,7 +162,7 @@
                             <a class="dropdown-toggle bar text-secondary font-weight-bold" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @ViewBag.TopBar (Spots)
                             </a>
-                     <div class="dropdown-menu dropdown-menu-right animated-fade-in dropthem" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu dropdown-menu-right animated-fade-in dropthem" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" asp-action="Index" asp-route-search3="Top Advertisers" asp-fragment="bookmark">Top Advertisers</a>
                                 <a class="dropdown-item" asp-action="Index" asp-route-search3="Top Television Advertisers" asp-fragment="bookmark">Top Television Advertisers</a>
                                 <a class="dropdown-item" asp-action="Index" asp-route-search3="Top Radio Advertisers" asp-fragment="bookmark">Top Radio Advertisers</a>
