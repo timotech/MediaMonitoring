@@ -22,6 +22,8 @@ namespace MediaMonitoring.Models
         public DbSet<CodeFile> CodeFiles { get; set; }
         public DbSet<Station> Stations { get; set; }
         public DbSet<TopAdvertisers> TopAdvertisers { get; set; }
+        public DbSet<TopAdvertisers2> TopAdvertisers2s { get; set; }
+        public DbSet<TopAdvertisers3> TopAdvertisers3s { get; set; }
         public DbSet<TopBrandsInCategory> TopBrandsInCategories { get; set; }
         public DbSet<WatchDog> WatchDogs { get; set; }
         public DbSet<WatchDogRadio> WatchDogRadios { get; set; }
@@ -58,11 +60,19 @@ namespace MediaMonitoring.Models
         public DbSet<ShareOfVoiceAllMedia> ShareOfVoiceAllMedias { get; set; }
         public DbSet<Reconciliation> Reconciliations { get; set; }
         public DbSet<ReconciliationSummary> ReconciliationSummaries { get; set; }
+        public DbSet<TopCampaigns> TopCampaigns { get; set; }
+        public DbSet<ShareOfCompetitiveWatchDogOutdoor> ShareOfCompetitiveWatchDogOutdoors { get; set; }
+        public DbSet<ShareOfCompetitiveWatchDogPress> ShareOfCompetitiveWatchDogPresses { get; set; }
+        public DbSet<MediaSpendMix> MediaSpendMixes { get; set; }
+        public DbSet<DurationMix> DurationMixes { get; set; }
+        public DbSet<CummulativeSOVSOE> CummulativeSOVSOEs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<TopAdvertisers>().HasNoKey().ToView("TopAdvertisers");
+            modelBuilder.Entity<TopAdvertisers2>().HasNoKey().ToView("TopAdvertisers2");
+            modelBuilder.Entity<TopAdvertisers3>().HasNoKey().ToView("TopAdvertisers3");
             modelBuilder.Entity<TopBrandsInCategory>().HasNoKey().ToView("TopBrandsInCategory");
             modelBuilder.Entity<WatchDog>().HasNoKey().ToView("WatchDog");
             modelBuilder.Entity<WatchDogRadio>().HasNoKey().ToView("WatchDogRadio");
@@ -99,6 +109,15 @@ namespace MediaMonitoring.Models
             modelBuilder.Entity<ShareOfVoiceAllMedia>().HasNoKey().ToView("ShareOfVoiceAllMedia");
             modelBuilder.Entity<Reconciliation>().HasNoKey().ToView("Reconciliation");
             modelBuilder.Entity<ReconciliationSummary>().HasNoKey().ToView("ReconciliationSummary");
+            modelBuilder.Entity<TopCampaigns>().HasNoKey().ToView("TopCampaigns");
+
+            modelBuilder.Entity<ShareOfCompetitiveWatchDogPress>().HasNoKey().ToView("ShareOfCompetitiveWatchDogPress");
+
+            modelBuilder.Entity<ShareOfCompetitiveWatchDogOutdoor>().HasNoKey().ToView("ShareOfCompetitiveWatchDogOutdoor");
+
+            modelBuilder.Entity<MediaSpendMix>().HasNoKey().ToView("MediaSpendMix");
+            modelBuilder.Entity<DurationMix>().HasNoKey().ToView("DurationMix");
+            modelBuilder.Entity<CummulativeSOVSOE>().HasNoKey().ToView("CummulativeSOVSOE");
         }
     }
 
@@ -110,5 +129,7 @@ namespace MediaMonitoring.Models
         public string Company { get; set; }
         public string CompanyId { get; set; }
         public string Brand { get; set; }
+        public string PicPath { get; set; }
+        public string BillBoardPic { get; set; }
     }
 }

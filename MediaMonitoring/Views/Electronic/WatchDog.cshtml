@@ -34,18 +34,25 @@
                     Radio
                 </label>
             </div>
-            <div class="form-check pt-2">
-                <input class="form-check-input" type="radio" asp-for="MediaType" value="Press">
-                <label class="form-check-label" for="gridRadios1">
-                    Press
-                </label>
-            </div>
-            <div class="form-check pt-2">
-                <input class="form-check-input" type="radio" asp-for="MediaType" value="Outdoor">
-                <label class="form-check-label" for="gridRadios1">
-                    Outdoor
-                </label>
-            </div>
+
+            @if (User.IsInRole("Press"))
+            {
+                <div class="form-check pt-2">
+                    <input class="form-check-input" type="radio" asp-for="MediaType" value="Press">
+                    <label class="form-check-label" for="gridRadios1">
+                        Press
+                    </label>
+                </div>
+            }
+            @if (User.IsInRole("Outdoor"))
+            {
+                <div class="form-check pt-2">
+                    <input class="form-check-input" type="radio" asp-for="MediaType" value="Outdoor">
+                    <label class="form-check-label" for="gridRadios1">
+                        Outdoor
+                    </label>
+                </div>
+            }
             <div class="my-4 ml-4">
                 <button type="submit" onclick="return ValidateInputs();" class="btn btn-default">Generate Report  <i class="fas fa-chevron-right pl-4"></i></button>
             </div>

@@ -9,7 +9,7 @@
 
 <div class="row">
 
-    <!-- Area Chart -->
+    <!-- Pie Chart -->
     <div class="col-xl-8 col-lg-7">
         <div class="row">
             <div class="row dimola mx-3">
@@ -32,7 +32,7 @@
                     ">
                             Total Adspend
                         </h5>
-                        <p class="text-black my-4 text-center pt-3 text-green"><b><i class="fas fa-chevron-up pr-2"></i>50.5%</b></p>
+                        <p class="text-black my-4 text-center pt-3 text-green"><b><i class="fas fa-chevron-up pr-2"></i>24.5%</b></p>
                     </div>
                 </div>
             </div>
@@ -42,13 +42,13 @@
                     <div class="card-header d-flex flex-row align-items-center justify-content-between bg-white">
                         <h6 class="m-0 font-weight-bold bg-white text-black">Adspend Breakdown</h6>
                         <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                This year<i class="fas fa-chevron-down px-2"></i>
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @ViewBag.CategorySelection <i class="fas fa-chevron-down px-2"></i>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right animated--fade-in dropme" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">This Month</a>
-                                <a class="dropdown-item" href="#">Last Month</a>
-                                <a class="dropdown-item" href="#">This year</a>
+                            <div class="dropdown-menu dropdown-menu-right animated--fade-in dropme1" aria-labelledby="dropdownMenuLink1">
+                                <a class="dropdown-item" asp-action="Dashboard" asp-route-search="This Month">This Month</a>
+                                <a class="dropdown-item" asp-action="Dashboard" asp-route-search="Last Month">Last Month</a>
+                                <a class="dropdown-item" asp-action="Dashboard" asp-route-search="This year">This year</a>
                             </div>
                         </div>
                     </div>
@@ -77,20 +77,20 @@
 
     </div>
 
-    <!-- Pie Chart -->
+    <!-- Top Advertizers List -->
     <div class="col-xl-4 col-lg-5">
         <div class="card pb-4">
             <!-- Card Header - Dropdown -->
             <div class="card-header d-flex flex-row align-items-center justify-content-between bg-white">
-                <h6 class="m-0 font-weight-bold bg-white text-black">Top Advertisers</h6>
+                <h6 class="m-0 font-weight-bold bg-white text-black">Top Advertisers (Spend)</h6>
                 <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        This year<i class="fas fa-chevron-down pl-2"></i>
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @ViewBag.TopAdvertizersSelection <i class="fas fa-chevron-down pl-2"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right animated--fade-in dropme1" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">This Month</a>
-                        <a class="dropdown-item" href="#">Last Month</a>
-                        <a class="dropdown-item" href="#">This year</a>
+                    <div class="dropdown-menu dropdown-menu-right animated--fade-in dropme2" aria-labelledby="dropdownMenuLink2">
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search2="This Month">This Month</a>
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search2="Last Month">Last Month</a>
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search2="This year">This year</a>
                     </div>
                 </div>
             </div>
@@ -118,36 +118,96 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12" id="bookmark">
         <div class="card mb-4">
+            <h6 class="m-0 font-weight-bold bg-white text-black text-center pt-2 pb-2">Top Advertisers (Spots)</h6>
             <div class="card-header d-flex flex-row justify-content-between bg-white">
                 <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle bar" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Top Television Advertisers<i class="fas fa-chevron-down pl-2"></i>
+                    <a class="dropdown-toggle bar" href="#" role="button" id="dropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @ViewBag.TopBar <i class="fas fa-chevron-down pl-2"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right animated-fade-in dropthem" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Top Television Advertisers</a>
-                        <a class="dropdown-item" href="#">Top Radio Advertisers</a>
-                        <a class="dropdown-item" href="#">Top Press Advertisers</a>
-                        <a class="dropdown-item" href="#">Top Outdoor Advertisers</a>
+                    <div class="dropdown-menu dropdown-menu-right animated-fade-in dropthem" aria-labelledby="dropdownMenuLink3">
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search3="Top Advertisers" asp-fragment="bookmark">Top Advertisers</a>
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search3="Top Television Advertisers" asp-fragment="bookmark">Top Television Advertisers</a>
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search3="Top Radio Advertisers" asp-fragment="bookmark">Top Radio Advertisers</a>
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search3="Top Press Advertisers" asp-fragment="bookmark">Top Press Advertisers</a>
+                        <a class="dropdown-item" asp-action="Dashboard" asp-route-search3="Top Outdoor Advertisers" asp-fragment="bookmark">Top Outdoor Advertisers</a>
                     </div>
                 </div>
+
                 <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        This year<i class="fas fa-chevron-down pl-2"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right animated--fade-in dropme2" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">This Month</a>
-                        <a class="dropdown-item" href="#">Last Month</a>
-                        <a class="dropdown-item" href="#">This year</a>
-                    </div>
+                    <a class="dropdown-item" href="#">This year</a>
+                    @*<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            This year<i class="fas fa-chevron-down pl-2"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right animated--fade-in dropme3" aria-labelledby="dropdownMenuLink4">
+                            <a class="dropdown-item" href="#">This Month</a>
+                            <a class="dropdown-item" href="#">Last Month</a>
+                            <a class="dropdown-item" href="#">This year</a>
+                        </div>*@
                 </div>
             </div>
             <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
             <div class="card-footer small text-muted">Updates Everyday</div>
         </div>
     </div>
-
+</div>
+<div class="row">
+    <div class="card col-md-4">
+        <div class="card-header text-center">Your Media Mix Strategy</div>
+        <div class="card-body">
+            <canvas id="myStackedChart" width="100%" height="50"></canvas>
+        </div>
+    </div>
+    <div class="card col-md-4">
+        <div class="card-header text-center">Your Spots By Duration</div>
+        <div class="card-body">
+            <canvas id="myBarDurationChart" width="100%" height="50"></canvas>
+        </div>
+    </div>
+    <div class="card col-md-4">
+        <div class="card-header text-center">Your Spend By Months</div>
+        <div class="card-body">
+            <canvas id="myLineChart" width="100%" height="50"></canvas>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="mt-4 mb-4">
+        <br />
+        <form asp-action="Export" asp-controller="Electronic" asp-route-operation="CurrentCampaigns" method="post">
+            <input type="hidden" name="GridHtml" />
+            <button type="submit" class="btn btn-secondary btnSubmit">Download Logs... <i class="fas fa-download pl-4"></i></button>
+        </form>
+        <br />
+        <div id="Grid">
+            <table class="table table-responsive roboto" style="font-size:14px;">
+                <thead>
+                    <tr>
+                        <th>Period</th>
+                        <th>Brand</th>
+                        <th>Campaign</th>
+                        <th>Station</th>
+                        <th>Duration</th>
+                        <th>Medium</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.CurrentCampaigns)
+                    {
+                        <tr>
+                            <td>@item.AdDate</td>
+                            <td>@item.Brand</td>
+                            <td>@item.Campaign</td>
+                            <td>@item.Station</td>
+                            <td>@item.Duration</td>
+                            <td>@item.Medium</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 @section Scripts{
@@ -161,9 +221,9 @@
         Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
         Chart.defaults.global.defaultFontColor = '#858796';
 
-        // Pie Chart Example
-        var ctx = document.getElementById("myPieChart");
-        var myPieChart = new Chart(ctx, {
+        // Pie Chart Spend
+        var ctx1 = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx1, {
             type: 'doughnut',
             data: {
                 labels: lblArrays,
@@ -201,9 +261,9 @@
     Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#292b2c';
 
-    // Bar Chart Example
-    var ctx = document.getElementById("myBarChart");
-    var myLineChart = new Chart(ctx, {
+    // Bar Chart For Spots
+    var ctx2 = document.getElementById("myBarChart");
+    var myBarChartSpots = new Chart(ctx2, {
         type: 'bar',
         data: {
             labels: lblAdvertizers,
@@ -216,17 +276,87 @@
         },
         options: {
             scales: {
-                xAxes: [{
-                    time: {
-                        unit: 'month'
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 100000,
+                        maxTicksLimit: 8
                     },
                     gridLines: {
-                        display: false
-                    },
-                    ticks: {
-                        maxTicksLimit: 8
+                        display: true
                     }
                 }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+    </script>
+
+    <script>
+        //Media Mix Chart
+        //var lblMedium = @Html.Raw(Json.Serialize(ViewBag.Advertizers));
+        var spends = @Html.Raw(Json.Serialize(ViewBag.Mediums));
+        var ctx3 = document.getElementById('myStackedChart').getContext('2d');
+        var myMediaMixChart = new Chart(ctx3, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Television', 'Radio', 'Press', 'OOH'],
+                datasets: [{
+                    label: 'Spend %',
+                    data: spends,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(255, 200, 96, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 200, 96, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+    </script>
+
+    <script>
+    //bar chart for duration mix
+    var lblDurations = @Html.Raw(Json.Serialize(ViewBag.Durations));
+    var durSpots = @Html.Raw(Json.Serialize(ViewBag.DurCount));
+
+    var ctx4 = document.getElementById("myBarDurationChart");
+    var myBarChartDurations = new Chart(ctx4, {
+        type: 'bar',
+        data: {
+            labels: lblDurations,
+            datasets: [{
+                label: "Durations",
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: "rgba(2,117,216,1)",
+                data: durSpots,
+            }],
+        },
+        options: {
+            scales: {
                 yAxes: [{
                     ticks: {
                         min: 0,
@@ -246,8 +376,113 @@
     </script>
 
     <script>
+        //Spend by month line chart single dataset
+        var labels = @Html.Raw(Json.Serialize(ViewBag.Months));
+        var spends = @Html.Raw(Json.Serialize(ViewBag.Spends));
+
+        var ctx5 = document.getElementById('myLineChart').getContext('2d');
+        var myLineChartSpend = new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Spends By Month',
+                    data: spends,
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                hover: {
+                    mode: 'index',
+                    intersec: false
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Value'
+                        },
+                        max: 95000000000,
+                        min: 500000000,
+                        ticks: {
+                            // forces step size to be 50 units
+                            stepSize: 500000000
+                        }
+                    }
+                }
+            },
+        });
+
+
+        //Spend by month line chart multiple datasets
+        //var overallData = @Html.Raw(Json.Serialize(ViewBag.Months));
+        @*var datasetLabels = @Html.Raw(Json.Serialize(ViewBag.Spends).label);
+        var datasetDatas = @Html.Raw(Json.Serialize(ViewBag.Spends).data);
+        var dataSets = [];
+        for (var i = 0; i < datasetDatas.length; i++) {
+            var dataSet = {
+                label: datasetLabels[i],
+                backgroundColor: GetRandomColor(),
+                borderColor: 'red',
+                borderWidth: 1,
+                data: datasetDatas[i]
+            };
+            dataSets.push(dataSet);
+        }
+
+        var chartOptions = {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    boxWidth: 10,
+                    fontColor: 'black'
+                }
+            }
+        };*@
+
+    //var ctx5 = document.getElementById('myLineChart').getContext('2d');
+    //var myLineChartSpend = new Chart(ctx5, {
+    //    overallData
+    //});
+
+        //data: {
+        //    labels: overallLabels,
+        //    datasets: dataSets
+        //},
+        //options: chartOptions
+
+        //function GetRandomColor() {
+        //    var trans = '0.3';
+        //    var color = 'rgba(';
+        //    for (var i = 0; i < 3; i++) {
+        //        color += Math.floor(Math.random() * 255) + ',';
+        //    }
+        //    color += trans + ')';
+        //    return color;
+        //}
+    </script>
+
+
+
+    <script>
         $(document).ready(function () {
-            $('.dropme1 a').on('click', function () {
+            $('.dropme2 a').on('click', function () {
                 var txt = ($(this).text());
                 $('#topSpend').html('');
 
@@ -258,14 +493,16 @@
                     buttons: false
                 });
 
-                if (txt != null && txt != '') {
+                @*if (txt != null && txt != '') {
                     $.getJSON('@Url.Action("GetAdvertizerSpend")', { selection: txt },
                         function (depts) {
                             if (depts != null && !jQuery.isEmptyObject(depts)) {
                                 var result = "";
                                 $(depts).each(function (index, emp) {
-                                    result += '<div class="col-lg-7 col-md-7 col-sm-8 pb-4"><h6 class="text-black">' + index + '. <b class="pl-1">' + emp.advertiser + '</b></h6></div><div class="col-lg-3 col-md-3 col-sm-3"><h6 class="text-black"><b>₦' + emp.value + '</b></h6></div><div class="col-lg-2 col-md-2 col-sm-1"><img src="~/img/media-monitor/growth.svg"></div>';
+                                    var i = index + 1;
+                                    result += '<div class="col-lg-7 col-md-7 col-sm-8 pb-4"><h6 class="text-black">' + i + '. <b class="pl-1">' + emp.advertiser + '</b></h6></div><div class="col-lg-3 col-md-3 col-sm-3"><h6 class="text-black"><b>₦' + emp.value + '</b></h6></div><div class="col-lg-2 col-md-2 col-sm-1"><img src="/img/media-monitor/growth.svg"></div>';
                                 });
+                                $('#dropdownMenuLink2').text(txt);
                                 $('#topSpend').append(result);
                                 swal.close();
                             } else {
@@ -274,6 +511,36 @@
                         }
                     );
                 }
+            });*@
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.dropme1 a').on('click', function () {
+                swal({
+                    title: "Media Monitoring",
+                    text: "Please Wait While Fetching Category Spend!!!",
+                    icon: "info",
+                    buttons: false
+                });
+            });
+
+            $('.dropthem a').on('click', function () {
+                swal({
+                    title: "Media Monitoring",
+                    text: "Please Wait While Fetching Top Advertisers!!!",
+                    icon: "info",
+                    buttons: false
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".btnSubmit").click(function () {
+                $("input[name='GridHtml']").val($("#Grid").html());
             });
         });
     </script>

@@ -35,15 +35,141 @@ namespace MediaMonitoring.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Dashboard(string search, string search2, string search3)
         {
             var userDetails = await db.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefaultAsync();
             ViewBag.User = userDetails.FirstName;
 
+            //Get Total AdSpend
+            DateTime date = DateTime.Now;
             int year = DateTime.Now.Year;
-
+            var advertiserId = new SqlParameter("@AdvertizerId", userDetails.CompanyId);
+            var productId = new SqlParameter("@ProductId", userDetails.CategoryId);
             var beginDate = new SqlParameter("@BeginDate", new DateTime(year, 1, 1));
             var endDate = new SqlParameter("@EndDate", new DateTime(year, 12, 31));
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+
+            //Get Media Mix
+            var getMediaMix = db.MediaSpendMixes.FromSqlRaw("onl_GetMediaSpendAllMediaNewFormat_sel @BeginDate, @EndDate, @AdvertizerId", parameters: new[] { beginDate, endDate, advertiserId }).ToList();
+
+            var resultOutput = getMediaMix.Where(x => x.AdvertizerId == userDetails.CompanyId && !x.Brand.StartsWith("OTHERS")).FirstOrDefault();
+
+            var meds = new List<double>();
+            if (resultOutput != null)
+            {
+                var tot = resultOutput.Total;
+                var tel = resultOutput.TELE;
+                tel = tel != 0 ? Math.Round(tel / tot * 100, 1) : 0;
+                meds.Add(tel);
+
+                var rad = resultOutput.RADIO;
+                rad = rad != 0 ? Math.Round(rad / tot * 100, 1) : 0;
+                meds.Add(rad);
+
+                var pre = resultOutput.PRESS;
+                pre = pre != 0 ? Math.Round(pre / tot * 100, 1) : 0;
+                meds.Add(pre);
+
+                var ooh = resultOutput.OUTDOOR;
+                ooh = ooh != 0 ? Math.Round(ooh / tot * 100, 1) : 0;
+                meds.Add(ooh);
+            }
+
+            ViewBag.Mediums = meds;
+
+            //Bar chart Durations Mix
+            var getDurationMix = db.DurationMixes.FromSqlRaw("onl_GetSpotsByDuration_sel @AdvertizerId, @BeginDate, @EndDate", parameters: new[] { advertiserId, beginDate, endDate }).ToList();
+
+            ViewBag.Durations = getDurationMix.Select(x => x.Duration).ToList();
+            ViewBag.DurCount = getDurationMix.Select(x => x.DurationCount).ToList();
+
+
+            //Bar chart spend/spots            
+            List<TopAdvertisers2> barData = null;
+            List<TopAdvertisers3> barData2 = null;
+
+            if (!string.IsNullOrEmpty(search3) && search3 != "Top Advertisers")
+            {
+                ViewBag.TopBar = search3;
+                if (search3 == "Top Television Advertisers")
+                {
+                    barData = db.TopAdvertisers2s.FromSqlRaw("stp_GetMediaSpendTelevision_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
+
+                    ViewBag.Advertizers = barData.Take(10).Select(x => x.Advertiser).ToList();
+                    ViewBag.Spots = barData.Take(10).Select(x => x.Spots).ToList();
+                }
+                else if (search3 == "Top Radio Advertisers")
+                {
+                    barData = db.TopAdvertisers2s.FromSqlRaw("stp_GetMediaSpendRadio_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
+
+                    ViewBag.Advertizers = barData.Take(10).Select(x => x.Advertiser).ToList();
+                    ViewBag.Spots = barData.Take(10).Select(x => x.Spots).ToList();
+                }
+                else if (search3 == "Top Press Advertisers")
+                {
+                    barData2 = db.TopAdvertisers3s.FromSqlRaw("stp_GetMediaSpendPress_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
+
+                    ViewBag.Advertizers = barData2.Take(10).Select(x => x.Advertiser).ToList();
+                    ViewBag.Spots = barData2.Take(10).Select(x => x.Spots).ToList();
+                }
+                else if (search3 == "Top Outdoor Advertisers")
+                {
+                    barData2 = db.TopAdvertisers3s.FromSqlRaw("stp_GetMediaSpendOutdoor_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
+
+                    ViewBag.Advertizers = barData2.Take(10).Select(x => x.Advertiser).ToList();
+                    ViewBag.Spots = barData2.Take(10).Select(x => x.Spots).ToList();
+                }
+            }
+            else
+            {
+                ViewBag.TopBar = "Top Advertisers";
+
+                var getSpend2 = db.TopAdvertisers.FromSqlRaw("onl_GetMediaSpendAllMedia2_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
+
+                ViewBag.Advertizers = getSpend2.Take(10).Select(x => x.Advertiser).ToList();
+                ViewBag.Spots = getSpend2.Take(10).Select(x => x.Spots).ToList();
+            }
+
+            //SOE By Months
+            var getSOEMonthsMix = db.CummulativeSOVSOEs.FromSqlRaw("onl_GetShareOfVoiceAllMediaSpendCummulativeStar_sel @ProductId, @BeginDate, @EndDate", parameters: new[] { productId, beginDate, endDate }).ToList();
+
+            var getCompanyName = db.CodeFiles.Where(x => x.codefileid == "G" + userDetails.CompanyId).Select(x => x.Description).FirstOrDefault();
+
+            var getSMM = getSOEMonthsMix.Where(x => x.Advertizer == getCompanyName).GroupBy(x => new { x.MonthValue, x.Month, x.Brand })
+                .OrderBy(x => x.Key.MonthValue)
+                .Select(x => new
+                {
+                    Months = x.Key.Month,
+                    Brands = x.Key.Brand,
+                    AllTotalSpend = x.Sum(x => x.TotalSpend)
+                });
+
+            var months = getSMM.Select(x => x.Months).Distinct().ToArray();
+            ViewBag.Months = months;
+
+            //line chart data single dataset
+            ViewBag.Spends = getSMM.Select(x => x.AllTotalSpend).ToArray();
+
+
+            //Total Advertizers List
+            ViewBag.TopAdvertizersSelection = "This Year";
+            if (search2 == "This Month")
+            {
+                beginDate = new SqlParameter("@BeginDate", firstDayOfMonth);
+                endDate = new SqlParameter("@EndDate", firstDayOfMonth.AddMonths(1).AddDays(-1));
+                ViewBag.TopAdvertizersSelection = search2;
+            }
+            else if (search2 == "Last Month")
+            {
+                beginDate = new SqlParameter("@BeginDate", firstDayOfMonth.AddMonths(-1));
+                endDate = new SqlParameter("@EndDate", firstDayOfMonth.AddDays(-1));
+                ViewBag.TopAdvertizersSelection = search2;
+            }
+            else
+            {
+                beginDate = new SqlParameter("@BeginDate", new DateTime(year, 1, 1));
+                endDate = new SqlParameter("@EndDate", new DateTime(year, 12, 31));
+            }
 
             var getSpend = db.TopAdvertisers.FromSqlRaw("stp_GetMediaSpendAllMedia_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
 
@@ -60,63 +186,238 @@ namespace MediaMonitoring.Controllers
 
             ViewBag.TotalSpend = FormatNumber(Convert.ToInt64(spendTotal));
             ViewBag.TopSpends = spend;
-            ViewBag.Advertizers = getSpend.Take(10).Select(x => x.Advertiser).ToList();
-            ViewBag.Spots = getSpend.Take(10).Select(x => x.Spots).ToList();
+            
+            //Pie chart category spend
+            ViewBag.CategorySelection = "This year";
+            if (search == "This Month")
+            {
+                beginDate = new SqlParameter("@BeginDate", firstDayOfMonth);
+                endDate = new SqlParameter("@EndDate", firstDayOfMonth.AddMonths(1).AddDays(-1));
+                ViewBag.CategorySelection = search;
+            }
+            else if (search == "Last Month")
+            {
+                beginDate = new SqlParameter("@BeginDate", firstDayOfMonth.AddMonths(-1));
+                endDate = new SqlParameter("@EndDate", firstDayOfMonth.AddDays(-1));
+                ViewBag.CategorySelection = search;
+            }
+            else
+            {
+                beginDate = new SqlParameter("@BeginDate", new DateTime(year, 1, 1));
+                endDate = new SqlParameter("@EndDate", new DateTime(year, 12, 31));
+            }
 
             var product = new SqlParameter("@ProductId", userDetails.CategoryId);
             var getBrands = db.TopBrandsInCategories.FromSqlRaw("onl_GetMediaSpendAllMediaByBrandAndCategory_sel @BeginDate, @EndDate, @ProductId", parameters: new[] { beginDate, endDate, product }).ToList().Take(5);
 
+            var spendTotal2 = 0.00;
             foreach (var item in getBrands)
             {
                 if (item.Brand == "MTN")
                 {
                     item.Style = "bg-four";
                     item.Colors = "#f2fc04";
-                }                    
+                }
                 else if (item.Brand == "AIRTEL")
                 {
                     item.Style = "bg-two";
                     item.Colors = "#C60607";
-                }                    
+                }
                 else if (item.Brand == "GLOBACOM")
                 {
                     item.Style = "bg-one";
                     item.Colors = "#2FAB26";
-                }                    
+                }
                 else if (item.Brand == "NTEL")
                 {
                     item.Style = "bg-three";
                     item.Colors = "#FF5252";
-                }                    
+                }
                 else if (item.Brand == "9MOBILE")
                 {
                     item.Style = "bg-five";
                     item.Colors = "#62e611";
-                }                    
+                }
+
+                spendTotal2 += item.Value;
             }
 
             ViewBag.Brands = getBrands.Select(x => x.Brand).ToList();
             ViewBag.Values = getBrands.Select(x => x.Value).ToList();
 
             ViewBag.CategorySpend = getBrands;
+            
+            if(search != null)
+            {
+                ViewBag.TotalSpend = FormatNumber(Convert.ToInt64(spendTotal2));
+            }            
+
+            //Get Current Logs
+            var companyId = new SqlParameter("@Advertiser", userDetails.CompanyId);
+            var currentMonth = new SqlParameter("@Month", DateTime.Now.Month);
+            var topAds = db.TopCampaigns.FromSqlRaw("onl_GetCurrentCampaigns2_sel @Advertiser, @Month", parameters: new[] { companyId, currentMonth }).ToList();
+
+            var lstTopAds = new List<TopCampaignsViewModel>();
+            foreach (var item in topAds)
+            {
+                var lstItem = new TopCampaignsViewModel
+                {
+                    AdDate = item.AdDate.ToString(),
+                    Brand = item.Brand,
+                    Campaign = item.Campaign,
+                    Duration = item.Duration,
+                    Medium = item.Medium,
+                    Station = item.Station
+                };
+                lstTopAds.Add(lstItem);
+            }
+
+            ViewBag.CurrentCampaigns = lstTopAds;
             return View();
+
+            //line chart multiple datasets
+            //var datasetDatas = new Dictionary<string, List<double>>();
+
+            //foreach (var row in getSMM)
+            //{
+            //    var brand = row.Brands;
+            //    var month = row.Months;
+            //    var amount = row.AllTotalSpend;
+
+            //    if (!datasetDatas.ContainsKey(brand))
+            //    {
+            //        datasetDatas[brand] = new List<double>();
+            //    }
+
+            //    var amounts = datasetDatas[brand];
+            //    var monthIndex = Array.IndexOf(months, month);
+
+            //    // Add placeholders for any missing months
+            //    while (amounts.Count < monthIndex)
+            //    {
+            //        amounts.Add(0);
+            //    }
+
+            //    amounts.Add(amount);
+            //}
+
+            //var datasets = datasetDatas.Select(pair =>
+            //{
+            //    var brand = pair.Key;
+            //    var amounts = pair.Value.ToArray();
+
+            //    return new
+            //    {
+            //        label = brand,
+            //        data = amounts,
+            //        fill = false
+            //    };
+            //}).ToArray();
+
+            //var config = new
+            //{
+            //    type = "line",
+            //    data = new
+            //    {
+            //        labels = months,
+            //        datasets
+            //    },
+            //    options = new
+            //    {
+            //        responsive = true,
+            //        title = new
+            //        {
+            //            display = true,
+            //            text = "Amounts by Brand"
+            //        },
+            //        tooltips = new
+            //        {
+            //            mode = "index",
+            //            intersect = false
+            //        },
+            //        hover = new
+            //        {
+            //            mode = "nearest",
+            //            intersect = true
+            //        },
+            //        scales = new
+            //        {
+            //            xAxes = new[]
+            //            {
+            //                new
+            //                {
+            //                    display = true,
+            //                    scaleLabel = new
+            //                    {
+            //                        display = true,
+            //                        labelString = "Month"
+            //                    }
+            //                }
+            //            },
+            //            yAxes = new[]
+            //            {
+            //                new
+            //                {
+            //                    display = true,
+            //                    scaleLabel = new
+            //                    {
+            //                        display = true,
+            //                        labelString = "Spend"
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //};
+        }
+
+        public static ChartData GetChartData()
+        {
+            // Get the data from database.
+            DataTable dt = new DataTable();
+            dt.Columns.AddRange(new DataColumn[] {
+        new DataColumn("Month"), new DataColumn("Motorcycles"), new DataColumn("Bicycles") });
+            dt.Rows.Add("January", 30, 65);
+            dt.Rows.Add("February", 50, 60);
+            dt.Rows.Add("March", 40, 81);
+            dt.Rows.Add("April", 20, 80);
+            dt.Rows.Add("May", 80, 60);
+            dt.Rows.Add("June", 30, 60);
+
+            ChartData chartData = new ChartData();
+            chartData.Labels = dt.AsEnumerable().Select(x => x.Field<string>("Month")).ToArray();
+            chartData.DatasetLabels = new string[] { "Motorcycles", "Bicycles" };
+            List<double[]> datasetDatas = new List<double[]>();
+
+            List<double> motorcycles = new List<double>();
+            List<double> bicycles = new List<double>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                motorcycles.Add(Convert.ToDouble(dr["Motorcycles"]));
+                bicycles.Add(Convert.ToDouble(dr["Bicycles"]));
+            }
+
+            datasetDatas.Add(motorcycles.ToArray());
+            datasetDatas.Add(bicycles.ToArray());
+            chartData.DatasetDatas = datasetDatas;
+            return chartData;
         }
 
         [HttpGet]
         public IActionResult GetAdvertizerSpend(string selection)
         {
-            DateTime date = new DateTime();
+            DateTime date = DateTime.Now;
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             int year = DateTime.Now.Year;
             SqlParameter beginDate;
             SqlParameter endDate;
 
-            if(selection == "This Month")
+            if (selection == "This Month")
             {
                 beginDate = new SqlParameter("@BeginDate", firstDayOfMonth);
                 endDate = new SqlParameter("@EndDate", firstDayOfMonth.AddMonths(1).AddDays(-1));
-            } 
-            else if(selection == "Last Month")
+            }
+            else if (selection == "Last Month")
             {
                 beginDate = new SqlParameter("@BeginDate", firstDayOfMonth.AddMonths(-1));
                 endDate = new SqlParameter("@EndDate", firstDayOfMonth.AddDays(-1));
@@ -127,9 +428,10 @@ namespace MediaMonitoring.Controllers
                 endDate = new SqlParameter("@EndDate", new DateTime(year, 12, 31));
             }
 
-            
+
             var getSpend = db.TopAdvertisers.FromSqlRaw("stp_GetMediaSpendAllMedia_sel @BeginDate, @EndDate", parameters: new[] { beginDate, endDate }).ToList();
 
+            var spendTotal = 0.00;
             var spend = new List<TopAdvertisersDTO>();
             foreach (var item in getSpend.Take(10))
             {
@@ -137,7 +439,10 @@ namespace MediaMonitoring.Controllers
                 spendItem.Value = FormatNumber(Convert.ToInt64(item.Value));
                 spendItem.Advertiser = item.Advertiser;
                 spend.Add(spendItem);
-            }
+                spendTotal += item.Value;
+            }            
+
+            ViewBag.TotalSpend = FormatNumber(Convert.ToInt64(spendTotal));
 
             return Json(spend);
         }
@@ -303,7 +608,7 @@ namespace MediaMonitoring.Controllers
             {
                 return RedirectToAction("AdclusterReport", model);
             }
-            
+
             ViewBag.Brands = await db.Brands.Where(x => x.FK_AdvertizerId == userDetails.CompanyId).OrderBy(x => x.Description).ToListAsync();
             ViewBag.Stations = await db.Stations.Where(x => x.StationId.StartsWith("A")).OrderBy(x => x.Description).ToListAsync();
             return View();
@@ -765,33 +1070,33 @@ namespace MediaMonitoring.Controllers
             {
                 if (model.MediaType == "All Media")
                 {
-                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetAdClusterReportTvByDays_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
+                    var getSpend = await db.ShareOfExpeditureAllMedias.FromSqlRaw("onl_GetShareOfVoiceReportByValueByAllMedia_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
 
-                    allModels.ShareOfCompetitiveWatchDogs = getSpend;
+                    allModels.ShareOfExpeditureAllMedias = getSpend;
                 }
                 else if (model.MediaType == "Television")
                 {
-                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetAdClusterReportTvByDays_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
+                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetShareOfCompetitiveTelevision_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
 
                     allModels.ShareOfCompetitiveWatchDogs = getSpend;
                 }
                 else if (model.MediaType == "Radio")
                 {
-                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetAdClusterReportTvByDays_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
+                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetShareOfCompetitiveRadio_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
 
                     allModels.ShareOfCompetitiveWatchDogs = getSpend;
                 }
                 else if (model.MediaType == "Press")
                 {
-                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetAdClusterReportTvByDays_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
+                    var getSpend = await db.ShareOfCompetitiveWatchDogPresses.FromSqlRaw("onl_GetShareOfCompetitivePress_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
 
-                    allModels.ShareOfCompetitiveWatchDogs = getSpend;
+                    allModels.ShareOfCompetitiveWatchDogsPress = getSpend;
                 }
                 else if (model.MediaType == "Outdoor")
                 {
-                    var getSpend = await db.ShareOfCompetitiveWatchDogs.FromSqlRaw("onl_GetAdClusterReportTvByDays_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
+                    var getSpend = await db.ShareOfCompetitiveWatchDogOutdoors.FromSqlRaw("onl_GetShareOfCompetitiveOutdoor_sel @ProductId, @BeginDate, @EndDate, @Zone", parameters: new[] { productId, beginDate, endDate, zone }).ToListAsync();
 
-                    allModels.ShareOfCompetitiveWatchDogs = getSpend;
+                    allModels.ShareOfCompetitiveWatchDogsOutdoor = getSpend;
                 }
             }
 
@@ -844,7 +1149,7 @@ namespace MediaMonitoring.Controllers
         [HttpPost]
         public async Task<IActionResult> StationAudit(ReportsViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return RedirectToAction("StationAuditReport", model);
             }
@@ -883,7 +1188,7 @@ namespace MediaMonitoring.Controllers
                     allModels.WatchDogStationAuditRadios = getSpend;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -947,7 +1252,7 @@ namespace MediaMonitoring.Controllers
             {
                 throw ex;
             }
-            
+
 
             return View();
         }
@@ -1068,5 +1373,12 @@ namespace MediaMonitoring.Controllers
 
             return table;
         }
+    }
+
+    public class ChartData
+    {
+        public string[] Labels { get; set; }
+        public string[] DatasetLabels { get; set; }
+        public List<double[]> DatasetDatas { get; set; }
     }
 }
